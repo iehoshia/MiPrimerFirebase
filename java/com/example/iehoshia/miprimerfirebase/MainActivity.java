@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -55,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private CharSequence mTitle;
     private String[] mPlanetTitles;
 
+    Button btnLogout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +90,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 .addApi(Auth.GOOGLE_SIGN_IN_API)
                 .build();
 
-
+        btnLogout = (Button) findViewById(R.id.button);
+        btnLogout.setOnClickListener( new OnClickListenerLoggout());
     }
 
     @Override
@@ -117,4 +121,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     }
 
+    private class OnClickListenerLoggout implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            mFirebaseAuth.signOut();
+            mUsername = ANONYMOUS;
+            Intent in = new Intent(MainActivity.this, SignInActivity.class);
+            startActivity(in);
+        }
+    }
 }
